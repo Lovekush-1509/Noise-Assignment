@@ -1,4 +1,7 @@
 const Task = require("../models/Task");
+require("dotenv").config();
+const { GoogleGenAI } = require("@google/genai");
+const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
 
 exports.createTask = async (req,res)=>{
     try{
@@ -43,6 +46,19 @@ exports.deleteTask = async (req,res)=>{
         const {id} = req.params;
         await Task.findByIdAndDelete(id);
         res.status(200).json({message:"Task deleted successfully"});
+    }catch(error){
+        res.status(500).json({message:error.message});
+    }
+}
+
+
+exports.suggestTask = async (req,res)=>{
+    try{
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: "suggest me 10 good excercise task",
+          });
+        res.status(200).json(response.text);
     }catch(error){
         res.status(500).json({message:error.message});
     }

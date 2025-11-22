@@ -30,4 +30,4 @@ app.get('/',(req,res)=>{
 // http://localhost:4000/habits/get
 // http://localhost:4000/habits/:id/complete
 // http://localhost:4000/habits/:id/delete
-
+// http://localhost:4000/habits/suggest
